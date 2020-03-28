@@ -7,8 +7,6 @@ router.get('/', function(req, res, next) {
         if (typeof req.query.accounts === "string")
             req.query.accounts = [req.query.accounts]
         const id = Buffer.from(req.query.id).toString('base64')
-        console.log(`id: ${req.query.id}`)
-        console.log(`b64: ${id}`)
         const accList = `"${req.query.accounts.join('" "')}"`
         const accLength = req.query.accounts.length
         res.render('pcode', { ticketId: id, accounts: accList, accountsCount: accLength });
