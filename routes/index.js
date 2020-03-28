@@ -13,7 +13,7 @@ router.post('/', function(req, res) {
     const accounts = req.body.accounts.split("\r\n")
     const id = req.body.id
     const filename = `DoAction${id}.pcode`
-    const queryParams = `?accounts=${accounts.join("&accounts=")}`
+    const queryParams = `?id=${id}&accounts=${accounts.join("&accounts=")}`
     const url = `http://localhost:3000/pcode${queryParams}`
     console.log(url)
 
@@ -31,8 +31,9 @@ router.post('/', function(req, res) {
             const childPorcess = exec(`java -jar jpex\\ffdec.jar -format script:pcode -replace core.swf core${id}.swf "\\__Packages\\dofus\\graphics\\gapi\\ui\\Login" "${filename}"`, function(err, stdout, stderr) {
                 if (err) {
                     console.log(err)
+                    res.status(500).send(err)
                 }
-                res.send(stdout)
+                else res.send(stdout)
             })
         });
     }).end();
